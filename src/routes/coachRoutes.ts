@@ -6,10 +6,10 @@ const prisma = new PrismaClient();
 
 // Crear un nuevo coach
 router.post('/', async (req, res) => {
-  const { coach_name, email, phone_number, course_id } = req.body;
+  const { coach_name, email, phone_number } = req.body;
   try {
     const coach = await prisma.coach.create({
-      data: { coach_name, email, phone_number, course_id },
+      data: { coach_name, email, phone_number },
     });
     res.json(coach);
   } catch (error) {

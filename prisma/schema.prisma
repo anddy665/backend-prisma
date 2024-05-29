@@ -12,8 +12,6 @@ model Coach {
   coach_name            String
   email                 String?              @db.VarChar(255)
   phone_number          String?              @db.VarChar(20)
-  course_id             Int?
-  course                Course?              @relation(fields: [course_id], references: [course_id])
   coach_topics          CoachTopic[]
   schedules             Schedule[]
   coach_topic_schedules CoachTopicSchedule[]
@@ -25,7 +23,6 @@ model Course {
   description String?   @db.Text
   start_date  DateTime? @db.Date
   end_date    DateTime? @db.Date
-  coaches     Coach[]
   topics      Topic[]
 }
 
