@@ -7,17 +7,68 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model User {
-  id    Int     @id @default(autoincrement())
-  name  String
-  email String  @unique
-  notes Note[]
+model Coach {
+  coach_id              Int                  @id @default(autoincrement())
+  coach_name            String
+  email                 String?              @db.VarChar(255)
+  phone_number          String?              @db.VarChar(20)
+  course_id             Int?
+  course                Course?              @relation(fields: [course_id], references: [course_id])
+  coach_topics          CoachTopic[]
+  schedules             Schedule[]
+  coach_topic_schedules CoachTopicSchedule[]
 }
 
-model Note {
-  id       Int     @id @default(autoincrement())
-  title    String
-  content  String
-  userId   Int
-  user     User    @relation(fields: [userId], references: [id])
+model Course {
+  course_id   Int       @id @default(autoincrement())
+  course_name String
+  description String?   @db.Text
+  start_date  DateTime? @db.Date
+  end_date    DateTime? @db.Date
+  coaches     Coach[]
+  topics      Topic[]
+}
+
+model Schedule {
+  schedule_id           Int                  @id @default(autoincrement())
+  coach_id              Int?
+  topic_id              Int?
+  schedule_time         DateTime?            @db.Time
+  schedule_day          String?              @db.VarChar(20)
+  schedule_location     String?              @db.VarChar(255)
+  coach                 Coach?               @relation(fields: [coach_id], references: [coach_id])
+  topic                 Topic?               @relation(fields: [topic_id], references: [topic_id])
+  coach_topic_schedules CoachTopicSchedule[]
+}
+
+model Topic {
+  topic_id              Int                  @id @default(autoincrement())
+  topic_name            String
+  description           String?              @db.Text
+  duration              Int?
+  course_id             Int?
+  course                Course?              @relation(fields: [course_id], references: [course_id])
+  coach_topics          CoachTopic[]
+  schedules             Schedule[]
+  coach_topic_schedules CoachTopicSchedule[]
+}
+
+model CoachTopic {
+  coach_id Int
+  topic_id Int
+  coach    Coach @relation(fields: [coach_id], references: [coach_id])
+  topic    Topic @relation(fields: [topic_id], references: [topic_id])
+
+  @@id([coach_id, topic_id])
+}
+
+model CoachTopicSchedule {
+  coach_id    Int
+  topic_id    Int
+  schedule_id Int
+  coach       Coach    @relation(fields: [coach_id], references: [coach_id])
+  topic       Topic    @relation(fields: [topic_id], references: [topic_id])
+  schedule    Schedule @relation(fields: [schedule_id], references: [schedule_id])
+
+  @@id([coach_id, topic_id, schedule_id])
 }
