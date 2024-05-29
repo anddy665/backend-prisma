@@ -11,11 +11,11 @@ Este proyecto es una API RESTful construida con Node.js, Express y Prisma, y se 
 
 1. Clona este repositorio:
 
-   ```sh
-   git clone https://github.com/tu-usuario/prisma-docker-mysql-api.git
-   cd prisma-docker-mysql-api
+```sh
+git clone https://github.com/tu-usuario/prisma-docker-mysql-api.git
+cd prisma-docker-mysql-api
 
-   ```
+```
 
 2. crea un archivo .env en la raíz del proyecto con el siguiente contenido:
 
